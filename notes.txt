@@ -1,0 +1,80 @@
+Development Notes
+================
+
+Project Setup
+------------
+- Created with Vite + React template
+- Added TypeScript support
+- Configured Tailwind CSS
+- Set up GitHub Pages deployment
+
+ESLint Configuration
+-------------------
+For production applications, the following ESLint configuration is recommended:
+
+1. Parser Options:
+```js
+export default tseslint.config({
+  languageOptions: {
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
+
+2. React Plugin Configuration:
+```js
+import react from 'eslint-plugin-react'
+export default tseslint.config({
+  settings: { react: { version: '18.3' } },
+  plugins: { react },
+  rules: {
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
+
+Design Decisions
+---------------
+1. SpaceX Inspiration
+   - Full-screen sections with parallax backgrounds
+   - Dark theme for professional appearance
+   - Minimalist typography for readability
+   - Gradient overlays for depth
+
+2. Component Architecture
+   - Separate layout and section components
+   - Reusable styling with Tailwind classes
+   - Responsive design breakpoints
+   - Performance optimized with lazy loading
+
+3. Content Structure
+   - Hero section with value proposition
+   - Technology showcase
+   - Investment approach
+   - Performance metrics
+
+Technical Implementation
+-----------------------
+- Build size: 48.57 kB gzipped JS
+- Image optimization with responsive sizes
+- CSS optimizations with Tailwind
+- No external dependencies for animations
+
+Future Improvements
+------------------
+1. Add smooth scrolling between sections
+2. Implement more interactive elements
+3. Add loading animations
+4. Enhance mobile navigation
+5. Add more performance metrics
+6. Implement i18n support
+
+Performance Metrics
+------------------
+- Initial load time target: < 2s
+- First contentful paint: < 1s
+- Time to interactive: < 3s
