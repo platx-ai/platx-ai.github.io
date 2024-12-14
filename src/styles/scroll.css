@@ -1,0 +1,18 @@
+/* Global smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem; /* Account for fixed header */
+}
+
+/* Ensure smooth scrolling works in modern browsers */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Optional: Add some easing for a more polished feel */
+html {
+  scroll-timeline: smooth;
+  transition-timing-function: ease-in-out;
+}
