@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import { Menu } from 'lucide-react';
 
 interface NavigationItem {
@@ -34,6 +34,11 @@ const Navigation: React.FC = () => {
                   key={item.label}
                   href={item.href}
                   className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors"
+                  onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+                    e.preventDefault();
+                    const element = document.querySelector(item.href);
+                    element?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                 >
                   {item.label}
                 </a>
@@ -60,7 +65,12 @@ const Navigation: React.FC = () => {
                 key={item.label}
                 href={item.href}
                 className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium"
-                onClick={() => setIsOpen(false)}
+                onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+                  e.preventDefault();
+                  const element = document.querySelector(item.href);
+                  element?.scrollIntoView({ behavior: 'smooth' });
+                  setIsOpen(false);
+                }}
               >
                 {item.label}
               </a>
