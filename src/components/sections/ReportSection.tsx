@@ -1,5 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { getContent, ContentResponse, ReportFrontmatter } from '../../lib/content';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+const MarkdownComponents = {
+  h1: ({children}: {children: React.ReactNode}) => (
+    <h1 className="text-3xl font-bold mt-8 mb-4">{children}</h1>
+  ),
+  h2: ({children}: {children: React.ReactNode}) => {
+    const id = typeof children === 'string' ? children : 
+               Array.isArray(children) ? children.join('') : 'section';
+    return <h2 id={id} className="text-2xl font-bold mt-6 mb-3">{children}</h2>;
+  },
+  h3: ({children}: {children: React.ReactNode}) => (
+    <h3 className="text-xl font-bold mt-5 mb-2">{children}</h3>
+  ),
+  p: ({children}: {children: React.ReactNode}) => (
+    <p className="my-4 leading-relaxed">{children}</p>
+  ),
+  ul: ({children}: {children: React.ReactNode}) => (
+    <ul className="list-disc pl-6 my-4">{children}</ul>
+  ),
+  ol: ({children}: {children: React.ReactNode}) => (
+    <ol className="list-decimal pl-6 my-4">{children}</ol>
+  ),
+  li: ({children}: {children: React.ReactNode}) => (
+    <li className="mb-2">{children}</li>
+  ),
+  table: ({children}: {children: React.ReactNode}) => (
+    <div className="overflow-x-auto my-6">
+      <table className="border-collapse table-auto w-full">{children}</table>
+    </div>
+  ),
+  thead: ({children}: {children: React.ReactNode}) => (
+    <thead className="bg-gray-800">{children}</thead>
+  ),
+  th: ({children}: {children: React.ReactNode}) => (
+    <th className="border border-gray-700 px-4 py-2 text-left">{children}</th>
+  ),
+  td: ({children}: {children: React.ReactNode}) => (
+    <td className="border border-gray-700 px-4 py-2">{children}</td>
+  ),
+  blockquote: ({children}: {children: React.ReactNode}) => (
+    <blockquote className="border-l-4 border-blue-500 pl-4 italic my-4">{children}</blockquote>
+  ),
+  hr: () => <hr className="my-8 border-gray-700" />
+};
 
 const ReportSection: React.FC = () => {
   const [content, setContent] = useState<ContentResponse | null>(null);
@@ -20,10 +66,6 @@ const ReportSection: React.FC = () => {
       element.scrollIntoView({ behavior: 'smooth' });
       setActiveSection(sectionId);
     }
-  };
-
-  const createMarkup = () => {
-    return { __html: markdownContent };
   };
 
   return (
@@ -73,11 +115,15 @@ const ReportSection: React.FC = () => {
         </div>
 
         {/* Report content */}
-        <div className="bg-gray-900 bg-opacity-80 rounded-lg p-8 shadow-xl">
-          <div 
-            className="prose prose-invert prose-lg max-w-none"
-            dangerouslySetInnerHTML={createMarkup()} 
-          />
+        <div className="bg-gray-900 bg-opacity-80 rounded-lg p-8 shadow-xl overflow-auto">
+          <div className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-gray-200 prose-li:text-gray-200">
+            <ReactMarkdown 
+              remarkPlugins={[remarkGfm]}
+              components={MarkdownComponents as any}
+            >
+              {markdownContent}
+            </ReactMarkdown>
+          </div>
         </div>
       </div>
     </section>
