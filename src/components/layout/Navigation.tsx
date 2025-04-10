@@ -15,6 +15,7 @@ const Navigation: React.FC = () => {
     { label: 'Performance', href: '#performance' },
     { label: 'Research', href: '#research' },
     { label: 'About', href: '#about' },
+    { label: '全球税收分析', href: '#report' },
   ];
 
   return (

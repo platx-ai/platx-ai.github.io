@@ -71,8 +71,12 @@ interface ContentResponse {
 
 export async function getContent(section: string): Promise<ContentResponse> {
   try {
-    // Fetch markdown content using fetch API without 'content' prefix
-    const response = await fetch(`/${section}/index.md`);
+    const url = new URL(`/${section}/index.md`, window.location.origin);
+    
+    url.username = '';
+    url.password = '';
+    
+    const response = await fetch(url.toString());
     if (!response.ok) {
       throw new Error(`Failed to fetch content for section ${section}`);
     }
