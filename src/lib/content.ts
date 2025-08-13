@@ -47,12 +47,32 @@ interface PerformanceFrontmatter extends BaseFrontmatter {
   }>;
 }
 
+// Research section frontmatter
+interface ResearchFrontmatter extends BaseFrontmatter {
+  background: string;
+  features: Array<{
+    title: string;
+    description: string;
+  }>;
+}
+
+// About section frontmatter
+interface AboutFrontmatter extends BaseFrontmatter {
+  background: string;
+  features: Array<{
+    title: string;
+    description: string;
+  }>;
+}
+
 // Union type for all possible frontmatter types
 type SectionFrontmatter =
   | HeroFrontmatter
   | TechnologyFrontmatter
   | InvestmentFrontmatter
-  | PerformanceFrontmatter;
+  | PerformanceFrontmatter
+  | ResearchFrontmatter
+  | AboutFrontmatter;
 
 // Content response type
 interface ContentResponse {
@@ -86,6 +106,8 @@ export type {
   TechnologyFrontmatter,
   InvestmentFrontmatter,
   PerformanceFrontmatter,
+  ResearchFrontmatter,
+  AboutFrontmatter,
   SectionFrontmatter,
   ContentResponse
 };
