@@ -1,0 +1,20 @@
+{
+  "path": "/Users/antmanler/codebase/github.com/platx-ai/platx-ai.github.io",
+  "desc": "This is a SpaceX-inspired frontend project for Renaissance Era Group, showcasing AI-driven investment management capabilities. Built with React, TypeScript, Vite, and Tailwind CSS with a dark theme and full-screen sections.",
+  "id": "228a5beef38244469255670d3947bf23",
+  "data": {
+    "spaceKey": "228a5beef38244469255670d3947bf23",
+    "connections": {
+      "webIDE": "https://228a5beef38244469255670d3947bf23.ap-singapore.cloudstudio.club",
+      "preview": "https://228a5beef38244469255670d3947bf23--{port}.ap-singapore.cloudstudio.club",
+      "api": "https://228a5beef38244469255670d3947bf23--api.ap-singapore.cloudstudio.club",
+      "pty": "https://228a5beef38244469255670d3947bf23--pty.ap-singapore.cloudstudio.club"
+    }
+  },
+  "config": {
+    "api": "https://228a5beef38244469255670d3947bf23--api.ap-singapore.cloudstudio.club",
+    "pty": "https://228a5beef38244469255670d3947bf23--pty.ap-singapore.cloudstudio.club",
+    "region": "ap-shanghai",
+    "spaceKey": "228a5beef38244469255670d3947bf23"
+  }
+}
