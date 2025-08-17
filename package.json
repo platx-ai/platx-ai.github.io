@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:sections": "node scripts/build-dynamic-sections.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "create-section": "node scripts/create-section.js"
