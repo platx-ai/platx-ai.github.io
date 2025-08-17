@@ -32,9 +32,14 @@ interface InvestmentFrontmatter extends BaseFrontmatter {
     title: string;
     requirements: string[];
   };
-  process: {
+  infrastructure: {
     title: string;
-    steps: string[];
+    components: string[];
+    capabilities: string[];
+  };
+  methodology: {
+    title: string;
+    pillars: string[];
   };
 }
 

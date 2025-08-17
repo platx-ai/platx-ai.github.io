@@ -49,12 +49,12 @@ const InvestmentSection: React.FC = () => {
           </div>
 
           <div className="theme-card p-8">
-            <h4 className="text-2xl font-semibold mb-6">{frontmatter.process.title}</h4>
+            <h4 className="text-2xl font-semibold mb-6">{frontmatter.methodology.title}</h4>
             <ul className="space-y-4 text-muted-foreground">
-              {frontmatter.process.steps.map((step: string, index: number) => (
+              {frontmatter.methodology.pillars.map((pillar: string, index: number) => (
                 <li key={index} className="flex items-start">
                   <span className="text-foreground mr-2">•</span>
-                  {step}
+                  {pillar}
                 </li>
               ))}
             </ul>
