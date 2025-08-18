@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getDynamicContent, DynamicContentResponse, contentUtils } from '../../lib/dynamicContent';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { ArrowRight } from 'lucide-react';
 
 interface DynamicSectionProps {
   sectionId: string;
@@ -104,6 +108,84 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
 
   // 动态渲染内容区域
   const renderContentArea = () => {
+    // Research: Featured Report layout driven by frontmatter
+    if (frontmatter.featuredReport) {
+      const fr = frontmatter.featuredReport as {
+        pdfUrl: string;
+        coverImage?: string;
+        coverAlt?: string;
+        title?: string;
+        summary?: string;
+      };
+
+      return (
+        <div className="max-w-6xl mx-auto">
+          {/* Intro paragraphs */}
+          {(frontmatter.intro && Array.isArray(frontmatter.intro)) && (
+            <div className="mt-4 space-y-3 text-muted-foreground max-w-5xl mx-auto lg:mx-0">
+              {frontmatter.intro.slice(0, 2).map((p: string, idx: number) => (
+                <p key={idx}>{p}</p>
+              ))}
+            </div>
+          )}
+
+          {/* 4. Featured Report */}
+          <Card role="region" aria-label="Featured REALM Weekly report" className="mt-8 border-border/60">
+            <div className="grid gap-6 p-6 sm:grid-cols-5 sm:gap-8 lg:grid-cols-12 lg:gap-10">
+              {/* 4a. Cover */}
+              <div className="sm:col-span-2 lg:col-span-3">
+                <a href={fr.pdfUrl} aria-label="Open REALM Weekly PDF">
+                  <AspectRatio ratio={3/4} className="overflow-hidden rounded-md border bg-muted">
+                    <img
+                      src={fr.coverImage || '/images/backgrounds/mission-control.jpg'}
+                      alt={fr.coverAlt || 'REALM Weekly cover thumbnail'}
+                      className="h-full w-full object-cover"
+                    />
+                  </AspectRatio>
+                </a>
+              </div>
+
+              {/* 4b. Info */}
+              <div className="sm:col-span-3 lg:col-span-6 flex flex-col justify-center">
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground sm:text-xl">
+                    {fr.title || 'REALM Weekly — Latest Issue'}
+                  </h3>
+                  {fr.summary && (
+                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
+                      {fr.summary}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* 4c. Primary Action */}
+              <div className="lg:col-span-3 flex items-center justify-start sm:justify-end">
+                <div className="flex flex-col items-center gap-3">
+                  <a href={fr.pdfUrl} aria-label="Open REALM Weekly PDF">
+                    <Button size="icon" className="h-14 w-14 rounded-full bg-foreground text-background hover:bg-foreground/90">
+                      <ArrowRight className="h-6 w-6" />
+                      <span className="sr-only">View PDF</span>
+                    </Button>
+                  </a>
+                  <a href={fr.pdfUrl} className="text-sm font-medium text-foreground hover:underline">
+                    View PDF
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Helper note */}
+          {frontmatter.helperNote && (
+            <p className="mt-4 text-sm text-muted-foreground">
+              {frontmatter.helperNote}
+            </p>
+          )}
+        </div>
+      );
+    }
+
     // 如果有features数组，渲染为特性网格
     if (contentUtils.hasFeatures(frontmatter)) {
       return (
