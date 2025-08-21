@@ -351,7 +351,7 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
     // 2) When markdown body exists, render it (with KaTeX) in full width
     if (md && md.trim().length > 0) {
       return (
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {MarkdownBody}
         </div>
       );
