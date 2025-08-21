@@ -23,3 +23,10 @@ We see three tiers of "hard" for an LLM. Let $\theta$ be the parameters of a mod
 <AITierCard tier="3" title="Adaptive Learning" description="The model itself must change to solve the problem. This is fine-tuning—adapting parameters to new domains or tasks." formula="y = (θ + Δθ)(x)" delay="400" />
 
 This is reminiscent of complexity hierarchies, i.e. $P \subseteq NP \subseteq PSPACE$. And the frontier keeps moving. As models grow stronger, Tier-2 tricks are collapsing into Tier-1 intuition, and Tier-3 retraining is turning into Tier-2 prompting.
+
+We’re here to accelerate that motion until the gaps disappear.
+
+**Close the context gap**: make world fact inferable from the prompt alone.
+**Close the training gap**: make new skills learnable in-context.
+
+One token at a time.
