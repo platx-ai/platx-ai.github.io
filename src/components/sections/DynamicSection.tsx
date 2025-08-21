@@ -49,7 +49,7 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
     // Replace <AITierCard> blocks with a special marker that we'll handle in rendering
     return markdown.replace(
       /<AITierCard\s*(?:tier="([^"]*)")?\s*(?:title="([^"]*)")?\s*(?:description="([^"]*)")?\s*(?:formula="([^"]*)")?\s*(?:delay="([^"]*)")?\s*\/?>[\s\S]*?(?:<\/AITierCard>)?/gi,
-      (match, tier, title, description, formula, delay) => {
+      (_, tier, title, description, formula, delay) => {
         return `__AITIERCARD__${JSON.stringify({
           tier: tier || '1',
           title: title || '',
