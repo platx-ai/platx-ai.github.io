@@ -8,7 +8,7 @@ description: "We are a team of AI-native engineers and researchers pushing the b
 
 ## Our Mission
 
-We are a team of **AI-native engineers and researchers**.
+We are a team of **AI-native engineers and researchers**. 
 
 Back when BERT was still a lab experiment, we were already pushing language models to trade the news milliseconds after the headline broke. Today we design and train hybrid-architecture models, curate multimodal data (text, video, timeseries... even LiDAR), and build the curricula that turn raw tokens into reliable intelligence.
 
@@ -27,6 +27,7 @@ This is reminiscent of complexity hierarchies, i.e. $P \subseteq NP \subseteq PS
 We’re here to accelerate that motion until the gaps disappear.
 
 **Close the context gap**: make world fact inferable from the prompt alone.
+
 **Close the training gap**: make new skills learnable in-context.
 
 One token at a time.
