@@ -1,5 +1,9 @@
 /* 导入集中的主题管理系统 - 必须在最前面 */
 @import './styles/theme-system.css';
+/* KaTeX styles for LaTeX rendering */
+@import 'katex/dist/katex.min.css';
+/* AI Page custom styles */
+@import './styles/ai-page.css';
 
 @tailwind base;
 @tailwind components;

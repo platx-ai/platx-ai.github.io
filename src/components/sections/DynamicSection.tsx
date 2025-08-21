@@ -1,13 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { getDynamicContent, DynamicContentResponse, contentUtils } from '../../lib/dynamicContent';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { ArrowRight } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import { slugify } from '@/lib/slug';
+import AITierCard from './AITierCard';
 
 interface DynamicSectionProps {
   sectionId: string;
   className?: string;
+}
+
+// Utilities
+function childrenToText(children: ReactNode): string {
+  if (children === null || children === undefined) return '';
+  if (typeof children === 'string' || typeof children === 'number') return String(children);
+  if (Array.isArray(children)) return children.map(childrenToText).join('');
+  if (typeof children === 'object' && 'props' in (children as any)) {
+    return childrenToText((children as any).props?.children);
+  }
+  return '';
 }
 
 const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = '' }) => {
@@ -27,13 +44,15 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
       });
   }, [sectionId]);
 
+  const md = content?.content ?? '';
+
+
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   if (error) return <div className="min-h-screen flex items-center justify-center text-red-500">Error: {error}</div>;
   if (!content) return null;
 
   const { frontmatter } = content;
 
-  // 渲染列表项
   const renderList = (items: string[]) => {
     if (!Array.isArray(items)) return null;
     return items.map((item: string, index: number) => (
@@ -44,18 +63,39 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
     ));
   };
 
-  // 渲染特性卡片
-  const renderFeatures = (features: Array<{title: string, description: string}>) => {
-    return features.map((feature) => (
-      <div key={feature.title} className="theme-card p-8">
-        <h4 className="text-xl font-semibold mb-4">{feature.title}</h4>
-        <p className="text-muted-foreground">{feature.description}</p>
-      </div>
-    ));
+  const renderFeatures = (features: Array<{ title: string; description: string; formula?: string }>) => {
+    return features.map((feature, index) => {
+      // Check if this is an AI tier feature with formula
+      if (feature.formula) {
+        const tierMatch = feature.title.match(/Tier (\d+)/);
+        const tier = tierMatch ? parseInt(tierMatch[1]) : index + 1;
+        
+        return (
+          <AITierCard
+            key={feature.title}
+            tier={tier}
+            title={feature.title}
+            description={feature.description}
+            formula={feature.formula}
+            delay={index * 200}
+          />
+        );
+      }
+      
+      // Default feature card with enhanced styling
+      return (
+        <Card key={feature.title} className="group relative overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300 hover:scale-[1.01] hover:shadow-lg">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="relative p-8">
+            <h4 className="text-xl font-semibold mb-4 text-foreground group-hover:text-primary transition-colors duration-300">{feature.title}</h4>
+            <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+          </div>
+        </Card>
+      );
+    });
   };
 
-  // 渲染指标卡片
-  const renderMetrics = (metrics: Array<{title: string, value: string, description: string}>) => {
+  const renderMetrics = (metrics: Array<{ title: string; value: string; description: string }>) => {
     return metrics.map((metric) => (
       <div key={metric.title} className="theme-card p-8 text-center">
         <h4 className="text-lg font-medium text-muted-foreground mb-2">{metric.title}</h4>
@@ -65,40 +105,21 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
     ));
   };
 
-  // 渲染对象卡片
   const renderObjectCard = (obj: any, title: string) => {
     if (!obj || typeof obj !== 'object') return null;
-    
+
     return (
       <div key={title} className="theme-card p-8">
         <h4 className="text-2xl font-semibold mb-6">{obj.title || title}</h4>
         <div className="space-y-4 text-muted-foreground">
-          {obj.requirements && (
-            <ul className="space-y-4">
-              {renderList(obj.requirements)}
-            </ul>
-          )}
-          {obj.steps && (
-            <ul className="space-y-4">
-              {renderList(obj.steps)}
-            </ul>
-          )}
-          {obj.pillars && (
-            <ul className="space-y-4">
-              {renderList(obj.pillars)}
-            </ul>
-          )}
-          {obj.components && (
-            <ul className="space-y-4">
-              {renderList(obj.components)}
-            </ul>
-          )}
+          {obj.requirements && <ul className="space-y-4">{renderList(obj.requirements)}</ul>}
+          {obj.steps && <ul className="space-y-4">{renderList(obj.steps)}</ul>}
+          {obj.pillars && <ul className="space-y-4">{renderList(obj.pillars)}</ul>}
+          {obj.components && <ul className="space-y-4">{renderList(obj.components)}</ul>}
           {obj.capabilities && (
             <div className="mt-4">
               <h5 className="text-foreground font-medium mb-2">Capabilities:</h5>
-              <ul className="space-y-2">
-                {renderList(obj.capabilities)}
-              </ul>
+              <ul className="space-y-2">{renderList(obj.capabilities)}</ul>
             </div>
           )}
         </div>
@@ -106,9 +127,77 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
     );
   };
 
-  // 动态渲染内容区域
+  const MarkdownBody = (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm, remarkMath]}
+      rehypePlugins={[rehypeKatex]}
+      components={{
+        h1: ({ children }) => {
+          const text = childrenToText(children);
+          const id = slugify(text);
+          return <h1 id={id} className="text-3xl md:text-4xl font-bold tracking-tight mt-8 mb-4">{children}</h1>;
+        },
+        h2: ({ children }) => {
+          const text = childrenToText(children);
+          const id = slugify(text);
+          return <h2 id={id} className="text-2xl md:text-3xl font-semibold mt-8 mb-4">{children}</h2>;
+        },
+        h3: ({ children }) => {
+          const text = childrenToText(children);
+          const id = slugify(text);
+          return <h3 id={id} className="text-xl md:text-2xl font-semibold mt-6 mb-3">{children}</h3>;
+        },
+        p: ({ children }) => <p className="leading-7 text-muted-foreground mb-4">{children}</p>,
+        ul: ({ children }) => <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>,
+        ol: ({ children }) => <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>,
+        li: ({ children }) => <li className="leading-7">{children}</li>,
+        strong: ({ children }) => <strong className="text-foreground font-semibold">{children}</strong>,
+        em: ({ children }) => <em className="italic">{children}</em>,
+        blockquote: ({ children }) => (
+          <blockquote className="border-l-4 border-border pl-4 py-2 my-4 text-muted-foreground">{children}</blockquote>
+        ),
+        code: ({ inline, className, children, ...props }) => {
+          const text = String(children).replace(/\n$/, '');
+          if (inline) {
+            return (
+              <code className="rounded bg-muted px-1.5 py-0.5 text-sm text-foreground" {...props}>
+                {text}
+              </code>
+            );
+          }
+          return (
+            <pre className="overflow-x-auto rounded-md bg-muted p-4 text-sm">
+              <code className={className} {...props}>
+                {text}
+              </code>
+            </pre>
+          );
+        },
+        a: ({ href, children }) => (
+          <a href={href} className="text-foreground underline underline-offset-4 hover:opacity-80">
+            {children}
+          </a>
+        ),
+        hr: () => <hr className="my-8 border-border/70" />,
+        img: ({ src, alt }) => (
+          <img src={src || ''} alt={alt || ''} className="rounded-md border border-border my-4" />
+        ),
+        table: ({ children }) => (
+          <div className="my-4 overflow-x-auto rounded-md border border-border">
+            <table className="w-full text-sm">{children}</table>
+          </div>
+        ),
+        thead: ({ children }) => <thead className="bg-muted/40">{children}</thead>,
+        th: ({ children }) => <th className="px-3 py-2 text-left font-medium">{children}</th>,
+        td: ({ children }) => <td className="px-3 py-2 border-t border-border/60">{children}</td>,
+      }}
+    >
+      {md}
+    </ReactMarkdown>
+  );
+
   const renderContentArea = () => {
-    // Research: Featured Report layout driven by frontmatter
+    // 1) Featured Report layout (kept for compatibility)
     if (frontmatter.featuredReport) {
       const fr = frontmatter.featuredReport as {
         pdfUrl: string;
@@ -120,8 +209,7 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
 
       return (
         <div className="max-w-6xl mx-auto">
-          {/* Intro paragraphs */}
-          {(frontmatter.intro && Array.isArray(frontmatter.intro)) && (
+          {frontmatter.intro && Array.isArray(frontmatter.intro) && (
             <div className="mt-4 space-y-3 text-muted-foreground max-w-5xl mx-auto lg:mx-0">
               {frontmatter.intro.slice(0, 2).map((p: string, idx: number) => (
                 <p key={idx}>{p}</p>
@@ -129,41 +217,36 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
             </div>
           )}
 
-          {/* 4. Featured Report */}
-          <Card role="region" aria-label="Featured REALM Weekly report" className="mt-8 border-border/60">
+          <Card role="region" aria-label="Featured report" className="mt-8 border-border/60">
             <div className="grid gap-6 p-6 sm:grid-cols-5 sm:gap-8 lg:grid-cols-12 lg:gap-10">
-              {/* 4a. Cover */}
               <div className="sm:col-span-2 lg:col-span-3">
-                <a href={fr.pdfUrl} aria-label="Open REALM Weekly PDF">
-                  <AspectRatio ratio={3/4} className="overflow-hidden rounded-md border bg-muted">
+                <a href={fr.pdfUrl} aria-label="Open PDF">
+                  <AspectRatio ratio={3 / 4} className="overflow-hidden rounded-md border bg-muted">
                     <img
                       src={fr.coverImage || '/images/backgrounds/mission-control.jpg'}
-                      alt={fr.coverAlt || 'REALM Weekly cover thumbnail'}
+                      alt={fr.coverAlt || 'Report cover thumbnail'}
                       className="h-full w-full object-cover"
                     />
                   </AspectRatio>
                 </a>
               </div>
 
-              {/* 4b. Info */}
               <div className="sm:col-span-3 lg:col-span-6 flex flex-col justify-center">
                 <div>
                   <h3 className="text-lg font-semibold text-foreground sm:text-xl">
-                    {fr.title || 'REALM Weekly — Latest Issue'}
+                    {fr.title || 'Latest Report'}
                   </h3>
-                  {fr.summary && (
-                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                      {fr.summary}
-                    </p>
-                  )}
+                  {fr.summary && <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{fr.summary}</p>}
                 </div>
               </div>
 
-              {/* 4c. Primary Action */}
               <div className="lg:col-span-3 flex items-center justify-start sm:justify-end">
                 <div className="flex flex-col items-center gap-3">
-                  <a href={fr.pdfUrl} aria-label="Open REALM Weekly PDF">
-                    <Button size="icon" className="h-14 w-14 rounded-full bg-foreground text-background hover:bg-foreground/90">
+                  <a href={fr.pdfUrl} aria-label="Open PDF">
+                    <Button
+                      size="icon"
+                      className="h-14 w-14 rounded-full bg-foreground text-background hover:bg-foreground/90"
+                    >
                       <ArrowRight className="h-6 w-6" />
                       <span className="sr-only">View PDF</span>
                     </Button>
@@ -176,59 +259,49 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
             </div>
           </Card>
 
-          {/* Helper note */}
-          {frontmatter.helperNote && (
-            <p className="mt-4 text-sm text-muted-foreground">
-              {frontmatter.helperNote}
-            </p>
-          )}
+          {frontmatter.helperNote && <p className="mt-4 text-sm text-muted-foreground">{frontmatter.helperNote}</p>}
         </div>
       );
     }
 
-    // 如果有features数组，渲染为特性网格
+    // 2) When markdown body exists, render it (with KaTeX) in full width
+    if (md && md.trim().length > 0) {
+      return (
+        <div className="max-w-4xl mx-auto">
+          {MarkdownBody}
+        </div>
+      );
+    }
+
+    // 3) Feature / Metric grids
     if (contentUtils.hasFeatures(frontmatter)) {
-      return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {renderFeatures(frontmatter.features)}
-        </div>
-      );
+      return <div className="grid grid-cols-1 md:grid-cols-3 gap-8">{renderFeatures(frontmatter.features)}</div>;
     }
 
-    // 如果有metrics数组，渲染为指标网格
     if (contentUtils.hasMetrics(frontmatter)) {
-      return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {renderMetrics(frontmatter.metrics)}
-        </div>
-      );
+      return <div className="grid grid-cols-1 md:grid-cols-3 gap-8">{renderMetrics(frontmatter.metrics)}</div>;
     }
 
-    // 渲染其他对象为卡片
+    // 4) Generic object cards
     const objectKeys = contentUtils.getObjectKeys(frontmatter);
     if (objectKeys.length > 0) {
-      const gridCols = objectKeys.length === 1 ? 'grid-cols-1' : 
-                      objectKeys.length === 2 ? 'grid-cols-1 md:grid-cols-2' : 
-                      'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
-      
-      return (
-        <div className={`grid ${gridCols} gap-12`}>
-          {objectKeys.map(key => renderObjectCard(frontmatter[key], key))}
-        </div>
-      );
+      const gridCols =
+        objectKeys.length === 1
+          ? 'grid-cols-1'
+          : objectKeys.length === 2
+          ? 'grid-cols-1 md:grid-cols-2'
+          : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
+
+      return <div className={`grid ${gridCols} gap-12`}>{objectKeys.map((key) => renderObjectCard(frontmatter[key], key))}</div>;
     }
 
     return null;
   };
 
-  // 确定是否有背景图片
   const hasBackground = frontmatter.background;
 
   return (
-    <section 
-      id={sectionId} 
-      className={`relative min-h-screen py-24 ${className}`}
-    >
+    <section id={sectionId} className={`relative min-h-screen py-24 ${className}`}>
       {hasBackground && (
         <>
           <div className="absolute inset-0 z-0">
@@ -241,25 +314,33 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
           </div>
         </>
       )}
-      
+
       <div className={`${hasBackground ? 'relative z-20' : ''} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`}>
-        {/* 标题区域 */}
         <div className="text-center mb-16">
-          <h2 className="text-sm sm:text-base uppercase tracking-widest text-muted-foreground mb-6">
-            {frontmatter.title}
-          </h2>
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 text-foreground">
-            {frontmatter.heading}
-          </h3>
-          {frontmatter.description && (
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              {frontmatter.description}
-            </p>
+          {frontmatter.title && (
+            <h2 className="text-sm sm:text-base uppercase tracking-widest text-muted-foreground mb-6">
+              {frontmatter.title}
+            </h2>
           )}
+          {frontmatter.heading && (
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 text-foreground">{frontmatter.heading}</h3>
+          )}
+          {frontmatter.description && <p className="text-muted-foreground max-w-2xl mx-auto">{frontmatter.description}</p>}
         </div>
 
-        {/* 动态内容区域 */}
         {renderContentArea()}
+
+        {/* If markdown body exists and features/metrics also exist, show them after body */}
+        {md && md.trim().length > 0 && (contentUtils.hasFeatures(frontmatter) || contentUtils.hasMetrics(frontmatter)) && (
+          <div className="mt-16 space-y-10">
+            {contentUtils.hasFeatures(frontmatter) && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">{renderFeatures(frontmatter.features)}</div>
+            )}
+            {contentUtils.hasMetrics(frontmatter) && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">{renderMetrics(frontmatter.metrics)}</div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );

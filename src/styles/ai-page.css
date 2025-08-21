@@ -1,0 +1,16 @@
+/* AI Page Custom Styles */
+
+/* Clean KaTeX formula styling */
+.katex-display {
+  margin: 1rem 0 !important;
+  font-size: 1.25em !important;
+}
+
+.katex {
+  font-size: 1.1em !important;
+}
+
+/* Simple, clean styling */
+.ai-tier-card {
+  opacity: 1;
+}
