@@ -6,7 +6,7 @@ description: "Signal-focused asset management powered by AI-driven timing and di
 
 infrastructure:
   title: "Intelligence Infrastructure"
-  highlights:
+  pillars:
     - "Unified data foundation with point-in-time integrity and lineage, integrating structured market/fundamental datasets and unstructured/alternative content"
     - "AI timing engine spanning macro, industry, and style with interpretable allocation outputs"
     - "Representation-learning pipelines and scalable real-time architecture from research to execution, with validation and auditability"
