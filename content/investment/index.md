@@ -2,22 +2,19 @@
 title: "Investment"
 heading: "Scientific Investment Approach"
 background: "/_shared/backgrounds/investment-tech.jpg"
-description: "Combining advanced AI technology with traditional investment wisdom to create a new paradigm in asset management."
+description: "Combining advanced AI with traditional investment craft to deliver AI-driven timing, powered by structured and unstructured data."
+
 infrastructure:
   title: "Intelligence Infrastructure"
-  components:
-    - "Traditional structured indicators"
-    - "Modern massive unstructured data–driven alpha"
-  capabilities:
-    - "Integration of heterogeneous sources"
-    - "AI/ML pipelines for representation learning"
-    - "Scalable architecture for real-time processing"
+  highlights:
+    - "Unified data foundation with point-in-time integrity and lineage, and integration of heterogeneous sources"
+    - "AI timing engine covering macro, industry, and style with interpretable allocation tilts"
+    - "Representation-learning pipelines and a scalable real-time architecture from research to execution with validation and auditability"
 
 methodology:
   title: "Investment Methodology"
   pillars:
-    - "Generation of decision signals from predictive models"
-    - "Systematic risk assessment and portfolio optimization"
-    - "Dynamic rebalancing with real-time signals"
-    - "Continuous performance monitoring and feedback loops" 
+    - "Generation of decision signals from predictive models and regime context"
+    - "Systematic risk assessment and portfolio optimization, expressed as policy-constrained allocation tilts"
+    - "Dynamic rebalancing with timely signals, and continuous performance monitoring with feedback loops"
 ---
