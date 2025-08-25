@@ -281,7 +281,103 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
   const MarkdownBody = <div>{renderMarkdownWithAITierCards(md)}</div>;
 
   const renderContentArea = () => {
-    // 1) Featured Report layout (kept for compatibility)
+    // 1) Panda Story layout - special layout for about page
+    if (frontmatter.layout === 'panda-story' && frontmatter.pandaImage) {
+      // Split markdown content by sections
+      const sections = md.split(/^---$/gm);
+      const pandaStorySection = sections[0] || '';
+      const remainingContent = sections.slice(1).join('---');
+
+      return (
+        <div className="max-w-6xl mx-auto space-y-16">
+          {/* Row 1: Panda image + Panda Story */}
+          <div className="flex flex-col lg:grid lg:grid-cols-5 gap-6 lg:gap-8 items-start">
+            {/* Panda image - responsive sizing */}
+            <div className="w-full lg:col-span-2">
+              <div className="max-w-sm mx-auto lg:max-w-md lg:mx-0">
+                <AspectRatio 
+                  ratio={3 / 2} 
+                  className="overflow-hidden rounded-md border border-border/30 bg-muted cursor-pointer group relative"
+                  onClick={() => {
+                    const fullImageUrl = frontmatter.pandaImageFull || frontmatter.pandaImage;
+                    if (fullImageUrl) {
+                      window.open(fullImageUrl, '_blank');
+                    }
+                  }}
+                >
+                  <img
+                    src={frontmatter.pandaImage}
+                    alt="Panda mascot representing Renaissance Era - Click to view full size"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 text-white px-3 py-1 rounded-md text-sm">
+                      Click to view full size
+                    </div>
+                  </div>
+                </AspectRatio>
+              </div>
+            </div>
+            
+            {/* Panda Story Content - full width on mobile, takes more space on desktop */}
+            <div className="w-full lg:col-span-3">
+              <div>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm, remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
+                  components={{
+                    h1: ({ children }) => {
+                      const text = childrenToText(children);
+                      const id = slugify(text);
+                      return <h1 id={id} className="text-3xl md:text-4xl font-bold tracking-tight mb-6">{children}</h1>;
+                    },
+                    p: ({ children }) => <p className="leading-7 text-muted-foreground mb-4">{children}</p>,
+                    strong: ({ children }) => <strong className="text-foreground font-semibold">{children}</strong>,
+                    em: ({ children }) => <em className="italic">{children}</em>,
+                  }}
+                >
+                  {pandaStorySection}
+                </ReactMarkdown>
+              </div>
+            </div>
+          </div>
+
+          {/* Row 2: Remaining content (Join Our Team + Contact Information) */}
+          {remainingContent && (
+            <div className="w-full">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm, remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+                components={{
+                  h1: ({ children }) => {
+                    const text = childrenToText(children);
+                    const id = slugify(text);
+                    return <h1 id={id} className="text-3xl md:text-4xl font-bold tracking-tight mt-12 mb-6">{children}</h1>;
+                  },
+                  h2: ({ children }) => {
+                    const text = childrenToText(children);
+                    const id = slugify(text);
+                    return <h2 id={id} className="text-2xl md:text-3xl font-semibold mt-8 mb-4">{children}</h2>;
+                  },
+                  p: ({ children }) => <p className="leading-7 text-muted-foreground mb-4">{children}</p>,
+                  strong: ({ children }) => <strong className="text-foreground font-semibold">{children}</strong>,
+                  em: ({ children }) => <em className="italic">{children}</em>,
+                  a: ({ href, children }) => (
+                    <a href={href} className="text-foreground underline underline-offset-4 hover:opacity-80">
+                      {children}
+                    </a>
+                  ),
+                }}
+              >
+                {remainingContent}
+              </ReactMarkdown>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // 2) Featured Report layout (kept for compatibility)
     if (frontmatter.featuredReport) {
       const fr = frontmatter.featuredReport as {
         pdfUrl: string;
@@ -307,7 +403,7 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
                 <a href={fr.pdfUrl} aria-label="Open PDF">
                   <AspectRatio ratio={3 / 4} className="overflow-hidden rounded-md border bg-muted">
                     <img
-                      src={fr.coverImage || '/images/backgrounds/mission-control.jpg'}
+                      src={fr.coverImage}
                       alt={fr.coverAlt || 'Report cover thumbnail'}
                       className="h-full w-full object-cover"
                     />

@@ -80,7 +80,7 @@ export default function BackgroundSchemeSelector() {
         aria-label="选择背景方案"
       >
         <Palette className="h-5 w-5 text-foreground" />
-        <span className="hidden sm:inline text-sm text-foreground">背景</span>
+        {/* <span className="hidden sm:inline text-sm text-foreground">背景</span> */}
       </button>
 
       {isOpen && (
