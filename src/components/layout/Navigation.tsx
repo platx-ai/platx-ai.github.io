@@ -49,8 +49,8 @@ const Navigation: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <BackgroundSchemeSelector />
-            <ThemeToggle />
+            {/* <BackgroundSchemeSelector />
+            <ThemeToggle /> */}
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}

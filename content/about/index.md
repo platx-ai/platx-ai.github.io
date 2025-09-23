@@ -24,8 +24,14 @@ We welcome individuals who are committed to applying cutting-edge AI innovation 
 
 We seek researchers, engineers, and domain experts who value first principles, robust systems, and disciplined risk management.
 
-## Contact Information
+## Contact US
 
-**Our email address:** [contact@renaissance-era.com](mailto:contact@renaissance-era.com)
+**Email:** [contact@renaissance-era.com](mailto:contact@renaissance-era.com)
 
-**Address:** [To be provided]
+**Beijing Office**: 
+
+36th Floor, Tower C, Huaxi International Center, No. 6 Jianguomenwai Avenue, Chaoyang District, Beijing, China   100022
+
+**Hongkong Office**: 
+
+43F, Champion Tower, 3 Garden Road, Central, Hong Kong
