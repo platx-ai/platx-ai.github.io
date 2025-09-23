@@ -1,7 +1,7 @@
 ---
 title: "Research"
 heading: "REALM Weekly"
-background: "/_shared/backgrounds/mission-control.jpg"
+background: "/_shared/backgrounds/20250923-112536.jpeg"
 description: "Timing the Cycle with Intelligence"
 intro:
   - "REALM is Renaissance Era’s AI trading model — An in-house 30B AI trained from scratch with deep search & reasoning, uniting new methods and scale with classical quant & finance to power a unified cross-asset end-to-end trading model."

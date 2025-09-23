@@ -397,7 +397,7 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
             </div>
           )}
 
-          <Card role="region" aria-label="Featured report" className="mt-8 border-border/60">
+          <Card role="region" aria-label="Featured report" className="mt-8 border-border/60 bg-background/20 backdrop-blur-md">
             <div className="grid gap-6 p-6 sm:grid-cols-5 sm:gap-8 lg:grid-cols-12 lg:gap-10">
               <div className="sm:col-span-2 lg:col-span-3">
                 <a href={fr.pdfUrl} aria-label="Open PDF">

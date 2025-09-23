@@ -1,7 +1,7 @@
 ---
 title: "AI Research"
 heading: "Three Tiers of Intelligence"
-background: "/_shared/backgrounds/investment-tech.jpg"
+background: "/_shared/backgrounds/20250923-111705.jpeg"
 description: "We are a team of AI-native engineers and researchers pushing the boundaries of what's possible with language models."
 
 ---

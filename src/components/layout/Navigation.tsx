@@ -1,7 +1,7 @@
 import React, { useState, MouseEvent } from 'react';
 import { Menu } from 'lucide-react';
-import ThemeToggle from '../ui/ThemeToggle';
-import BackgroundSchemeSelector from '../ui/BackgroundSchemeSelector';
+// import ThemeToggle from '../ui/ThemeToggle';
+// import BackgroundSchemeSelector from '../ui/BackgroundSchemeSelector';
 
 interface NavigationItem {
   label: string;

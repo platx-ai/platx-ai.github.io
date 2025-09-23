@@ -1,6 +1,7 @@
 ---
 title: "Performance"
 heading: "Proven Track Record"
+background: "/_shared/backgrounds/20250923-111908.jpeg"
 description: "Our AI-driven investment strategies have consistently delivered superior returns while maintaining robust risk management."
 metrics:
   - title: "Risk-Adjusted Return"

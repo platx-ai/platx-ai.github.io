@@ -1,7 +1,7 @@
 ---
 title: "About Us"
 heading: "Renaissance Era Investment"
-background: "/_shared/backgrounds/space-satellite.jpg"
+background: "/_shared/backgrounds/20250923-112543.jpeg"
 description: "Leading the future of investment management through innovative technology and scientific approaches to wealth creation."
 layout: "panda-story"
 pandaImage: "/_shared/the-pandas-thumbnail.jpeg"
