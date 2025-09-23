@@ -459,7 +459,7 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
     }
 
     if (contentUtils.hasMetrics(frontmatter)) {
-      return <div className="grid grid-cols-1 md:grid-cols-3 gap-8">{renderMetrics(frontmatter.metrics)}</div>;
+      return <div className="grid grid-cols-1 md:grid-cols-4 gap-8">{renderMetrics(frontmatter.metrics)}</div>;
     }
 
     // 4) Generic object cards
@@ -514,10 +514,10 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ sectionId, className = 
         {md && md.trim().length > 0 && (contentUtils.hasFeatures(frontmatter) || contentUtils.hasMetrics(frontmatter)) && (
           <div className="mt-16 space-y-10">
             {contentUtils.hasFeatures(frontmatter) && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">{renderFeatures(frontmatter.features)}</div>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8">{renderFeatures(frontmatter.features)}</div>
             )}
             {contentUtils.hasMetrics(frontmatter) && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">{renderMetrics(frontmatter.metrics)}</div>
+              <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8">{renderMetrics(frontmatter.metrics)}</div>
             )}
           </div>
         )}
