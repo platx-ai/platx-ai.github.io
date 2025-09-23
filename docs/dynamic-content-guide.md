@@ -24,7 +24,7 @@
 title: "小标题"
 heading: "主标题"
 description: "描述文字"
-background: "/_shared/backgrounds/image.jpg"
+background: "/_shared/backgrounds/image.webp"
 # 添加您的自定义内容...
 ---
 ```
@@ -84,7 +84,7 @@ customSection:
 ---
 title: "Investment"
 heading: "Scientific Investment Approach"
-background: "/_shared/backgrounds/investment-tech.jpg"
+background: "/_shared/backgrounds/investment-tech.webp"
 description: "Combining advanced AI technology with traditional investment wisdom..."
 qualifiedInvestors:
   title: "Qualified Investors"

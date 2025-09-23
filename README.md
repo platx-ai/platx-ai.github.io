@@ -145,7 +145,7 @@ description: "描述文字"
 ---
 title: "AI-Powered Investment"
 heading: "资产管理的未来"  # ← 编辑这一行
-background: "/_shared/backgrounds/space-satellite.jpg"
+background: "/_shared/backgrounds/space-satellite.webp"
 ---
 ```
 
@@ -190,7 +190,7 @@ features:
 
 ##### 图片和背景
 - 背景图片存储在 `content/_shared/backgrounds/`
-- 要更改背景，引用文件路径如：`/_shared/backgrounds/filename.jpg`
+- 要更改背景，引用文件路径如：`/_shared/backgrounds/filename.webp`
 - 添加新图片请联系技术团队
 
 ##### 投资信息

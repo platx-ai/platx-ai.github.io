@@ -9,7 +9,9 @@
     "build:sections": "node scripts/build-dynamic-sections.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "create-section": "node scripts/create-section.js"
+    "create-section": "node scripts/create-section.js",
+    "optimize-backgrounds": "node scripts/optimize-backgrounds.js",
+    "optimize-backgrounds-sh": "bash scripts/optimize-backgrounds.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

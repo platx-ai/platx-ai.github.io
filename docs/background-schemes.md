@@ -135,7 +135,7 @@
 - 平滑过渡动画效果
 
 ### 与现有素材的协调
-- 保持与 `investment-tech.jpg`、`mission-control.jpg`、`space-satellite.jpg` 的科技主题一致
+- 保持与 `investment-tech.webp`、`mission-control.webp`、`space-satellite.webp` 的科技主题一致
 - 降低背景图片透明度 (15-20%)，避免与新背景冲突
 - 统一的色彩语言和视觉风格
 

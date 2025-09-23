@@ -1,7 +1,7 @@
 ---
 title: "Investment"
 heading: "Scientific Investment Approach"
-background: "/_shared/backgrounds/20250923-111900.jpeg"
+background: "/_shared/backgrounds/20250923-111900.webp"
 description: "Signal-focused asset management powered by AI-driven timing and disciplined portfolio execution."
 
 infrastructure:

@@ -101,7 +101,7 @@ export default ${pascalCase}Section;
 const contentTemplate = `---
 title: "${titleCase}"
 heading: "${titleCase} Overview"
-background: "/_shared/backgrounds/default-bg.jpg"
+background: "/_shared/backgrounds/default-bg.webp"
 description: "Welcome to the ${titleCase} section. This section provides comprehensive information about our ${sectionName} capabilities."
 features:
   - title: "Feature 1"

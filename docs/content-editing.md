@@ -20,7 +20,7 @@ Each section has specific frontmatter fields that must be included:
 ---
 title: "Page Title"
 heading: "Main Heading"
-background: "/_shared/backgrounds/image.jpg"
+background: "/_shared/backgrounds/image.webp"
 cta:
   text: "Button Text"
   link: "#section-id"
@@ -33,7 +33,7 @@ cta:
 title: "Section Title"
 heading: "Main Heading"
 description: "Section Description"
-background: "/_shared/backgrounds/image.jpg"
+background: "/_shared/backgrounds/image.webp"
 features:
   - title: "Feature Title"
     description: "Feature Description"
@@ -46,7 +46,7 @@ features:
 title: "Section Title"
 heading: "Main Heading"
 description: "Section Description"
-background: "/_shared/backgrounds/image.jpg"
+background: "/_shared/backgrounds/image.webp"
 qualifiedInvestors:
   requirements:
     - "Requirement 1"
@@ -73,7 +73,7 @@ metrics:
 
 ## Image Management
 - Place shared images in `content/_shared/backgrounds/`
-- Reference images using relative paths: `/_shared/backgrounds/image.jpg`
+- Reference images using relative paths: `/_shared/backgrounds/image.webp`
 - Supported formats: jpg, png, webp
 - Recommended image dimensions:
   - Hero background: 1920x1080px
