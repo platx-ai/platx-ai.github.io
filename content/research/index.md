@@ -8,7 +8,7 @@ intro:
   - "REALM Weekly is our most valuable research output, summarizing the model's directional views and risk scenarios across global asset classes while tracking signal evolution and preferred exposures."
 helperNote: "A recent REALM Weekly sample is available below. To receive future or past issues, please contact us."
 featuredReport:
-  pdfUrl: "/research/REALM-Weekly-Sample.pdf"
+  pdfUrl: "/_shared/research/20250804_REALM_Weekly[ZH-CN].pdf"
   coverImage: "/_shared/backgrounds/mission-control.webp"
   coverAlt: "REALM Weekly cover thumbnail"
   title: "REALM Weekly 2025 August No.1"
