@@ -43,14 +43,19 @@ export const toggleDarkMode = () => {
 };
 
 export const initializeDarkMode = () => {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  // 暂时禁用自动选择，默认使用深色主题
+  document.documentElement.classList.add('dark');
+  return true;
   
-  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-    document.documentElement.classList.add('dark');
-    return true;
-  } else {
-    document.documentElement.classList.remove('dark');
-    return false;
-  }
+  // TODO: 稍后重新启用自动主题选择
+  // const savedTheme = localStorage.getItem('theme');
+  // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  // 
+  // if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+  //   document.documentElement.classList.add('dark');
+  //   return true;
+  // } else {
+  //   document.documentElement.classList.remove('dark');
+  //   return false;
+  // }
 };
